@@ -1,7 +1,7 @@
 import { PatternPasteEvent } from '@editorjs/editorjs/types/tools/paste-events'
 import { API } from '@editorjs/editorjs/types/index'
 import { ToolConfig } from '@editorjs/editorjs/types/tools/tool-config'
-import '@rmwc/circular-progress/circular-progress.css'
+
 
 export type TweetData = {
   username: string
