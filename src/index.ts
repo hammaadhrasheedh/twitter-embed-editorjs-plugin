@@ -90,7 +90,7 @@ export default class Twitter {
   static get pasteConfig() {
     return {
       patterns: {
-        twitter:  /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)(\/)?(\/status(?:es)?\/(\d+)(?:\/.*)?([^?]+)(\?.*)?$)?/
+        twitter:  /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)?(\/)?(status(?:es)?\/(\d+)(?:\/.*)?([^?]+)(\?.*)?$)?/
       }
     }
   }
