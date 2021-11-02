@@ -4,8 +4,8 @@ import { ToolConfig } from '@editorjs/editorjs/types/tools/tool-config'
 
 
 export type TweetData = {
-  username: string
-  id: string
+  username?: string
+  id?: string
   url: string
 }
 
@@ -22,15 +22,15 @@ declare global {
 export default class Twitter {
   private tweetData: TweetData
   private wrapper: HTMLElement
-  private loader: HTMLElement
+  // private loader: HTMLElement
   private tweetContainer: HTMLElement
 
   constructor(params: Constructor) {
     this.tweetData = params.data!
     this.wrapper = document.createElement('div')
     this.tweetContainer = document.createElement('div')
-    this.loader = this.createCircularProgress()
-    this.wrapper.appendChild(this.loader)
+    // this.loader = this.createCircularProgress()
+    // this.wrapper.appendChild(this.loader)
     this.wrapper.appendChild(this.tweetContainer)
     this.tweetContainer.style.height = '0px'
     if (this.tweetData && this.tweetData.url) {
@@ -46,13 +46,23 @@ export default class Twitter {
     url = url.trim()
     const tweetID = url.match(/twitter\.com\/.*\/status(?:es)?\/([^/?]+)/)
     const tweetUsername = url.match(/((https?:\/\/)?(www\.)?twitter\.com\/)?(@|#!\/)?([A-Za-z0-9_]{1,15})/)
-    if (tweetID && tweetID[1] && tweetUsername && tweetUsername[5]) {
-      this.tweetData = {
-        username: tweetUsername[5],
-        id: tweetID[1].toString(),
-        url
-      }
-      this.createTweet()
+    const singleTweet = url.match(/((https?:\/\/)?(www\.)?twitter\.com\/)?(@|#!\/)?([A-Za-z0-9_]{1,15})\/(status)/);
+
+    console.log(tweetID, tweetUsername, singleTweet)
+
+    if (tweetID && tweetID[1] && singleTweet) {
+        this.tweetData = {
+            id: tweetID[1].toString(),
+            url
+        };
+        this.createTweet();
+    }
+    if (tweetUsername && tweetUsername[5] && !singleTweet) {
+        this.tweetData = {
+            username: tweetUsername[5],
+            url
+        };
+        this.createTimeline();
     }
   }
 
@@ -60,7 +70,19 @@ export default class Twitter {
     window.twttr.widgets.createTweet(this.tweetData.id, this.tweetContainer).then((el: any) => {
       if (el) {
         el.parentNode.style.height = 'auto'
-        el.parentNode.previousElementSibling.remove()
+        // el.parentNode.previousElementSibling.remove()
+      }
+    })
+  }
+
+  private createTimeline() {
+    window.twttr.widgets.createTimeline({
+      sourceType: "profile",
+      screenName: this.tweetData.username
+    }, this.tweetContainer).then((el: any) => {
+      if (el) {
+        el.parentNode.style.height = 'auto'
+        // el.parentNode.previousElementSibling.remove()
       }
     })
   }
@@ -68,32 +90,32 @@ export default class Twitter {
   static get pasteConfig() {
     return {
       patterns: {
-        twitter: /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(?:es)?\/(\d+)(?:\/.*)?([^?]+)(\?.*)?$/
+        twitter:  /^https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/(status(?:es)?\/(\d+)(?:\/.*)?([^?]+)(\?.*)?$)?/
       }
     }
   }
 
-  private createCircularProgress(): HTMLElement {
-    const container = document.createElement('div')
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+  // private createCircularProgress(): HTMLElement {
+  //   const container = document.createElement('div')
+  //   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  //   const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
 
-    container.classList.add('rmwc-circular-progress', 'rmwc-circular-progress--indeterminate', 'rmwc-circular-progress--thickerstroke')
-    svg.classList.add('rmwc-circular-progress__circle')
-    circle.classList.add('rmwc-circular-progress__path')
+  //   container.classList.add('rmwc-circular-progress', 'rmwc-circular-progress--indeterminate', 'rmwc-circular-progress--thickerstroke')
+  //   svg.classList.add('rmwc-circular-progress__circle')
+  //   circle.classList.add('rmwc-circular-progress__path')
 
-    svg.setAttribute('viewBox', '0 0 72 72')
-    circle.setAttribute('cx', '36')
-    circle.setAttribute('cy', '36')
-    circle.setAttribute('r', '30')
+  //   svg.setAttribute('viewBox', '0 0 72 72')
+  //   circle.setAttribute('cx', '36')
+  //   circle.setAttribute('cy', '36')
+  //   circle.setAttribute('r', '30')
 
-    svg.appendChild(circle)
-    container.appendChild(svg)
+  //   svg.appendChild(circle)
+  //   container.appendChild(svg)
 
-    container.style.fontSize = '72px'
+  //   container.style.fontSize = '72px'
 
-    return container
-  }
+  //   return container
+  // }
 
   public save(): TweetData {
     return this.tweetData
