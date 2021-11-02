@@ -1,7 +1,7 @@
 {
   "name": "twitter-embed-editorjs-plugin",
   "version": "1.0.0",
-  "description": "Plugin for Editor.js to render Twitter iframe",
+  "description": "Plugin for Editor.js to render Twitter iframe, added on Ignat Ospadov's plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -24,8 +24,8 @@
     "Editorjs plugin"
   ],
   "author": {
-    "name": "Ignat Ospadov",
-    "email": "iospadov@gmail.com"
+    "name": "Hammaadh Rasheedh",
+    "email": "hammaadhrasheedh@gmail.com"
   },
   "license": "ISC",
   "bugs": {
