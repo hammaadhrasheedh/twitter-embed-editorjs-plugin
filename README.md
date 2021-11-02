@@ -11,7 +11,7 @@ This package requires that Twitter for Websites JavaScript library is **loaded b
 **Get the package**
 
 ```shell
-npm i twitter-embed-editorjs-plugin
+npm i @hammaadhrasheedh/twitter-embed-editorjs-plugin
 ```
 
 **Create Twitter library handler**
@@ -69,7 +69,7 @@ When the component is rendered, it will first check to see if Twitter library is
 ```javascript
 import { useRef, useEffect } from 'react'
 import EditorJS, { EditorConfig } from '@editorjs/editorjs'
-import Twitter from 'twitter-embed-editorjs-plugin'
+import Twitter from '@hammaadhrasheedh/twitter-embed-editorjs-plugin'
 
 const editorConfiguration: EditorConfig = {
   holder: 'editor',
