@@ -1,6 +1,6 @@
 {
   "name": "@hammaadhrasheedh/twitter-embed-editorjs-plugin",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Plugin for Editor.js to render Twitter iframe, added on Ignat Ospadov's plugin",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

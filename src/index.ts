@@ -13,6 +13,7 @@ interface Constructor {
   data?: TweetData
   api: API
   config?: ToolConfig
+  readOnly?:any
 }
 
 declare global {
@@ -36,6 +37,10 @@ export default class Twitter {
     if (this.tweetData && this.tweetData.url) {
       this.tweetData.url = this.tweetData.url.trim()
     }
+  }
+
+  static get isReadOnlySupported() {
+    return true;
   }
 
   public onPaste(event: PatternPasteEvent) {
@@ -124,6 +129,9 @@ export default class Twitter {
   public render(): HTMLElement {
     if (this.tweetData.id) {
       this.createTweet()
+    }
+    if(this.tweetData.username){
+      this.createTimeline();
     }
     return this.wrapper
   }
